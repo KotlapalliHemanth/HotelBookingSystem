@@ -31,8 +31,8 @@ const Login = () => {
         e.preventDefault();
         setError(false);
         setErrorMessage('');
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
         if (username === '' || password === '') {
             setError(true);
             setErrorMessage('Please fill in all fields');
@@ -58,23 +58,23 @@ const Login = () => {
             </div>
                 <form action="" onSubmit={handleSubmit}>
                     <div className="inputBox">
-                        <input type="text" id="username" placeholder=" " />
+                        <input type="text" id="loginUsername" placeholder=" " />
                         {/* value={username} onChange={e=>setUsername(e.target.value)} */}
                         <span></span>
-                        <label for="username" id="userLabel">Enter Email/Mobile Number</label>
+                        <label htmlFor="loginUsername" id="loginUserLabel" className='userLabel'>Enter Email/UserName</label>
                     </div>
                     <div className='inputBox'>
-                        <input type="password" id="password" placeholder=" " />  
+                        <input type="password" id="loginPassword" placeholder=" " />  
                         {/* value={password} onChange={e=>setPassword(e.target.value)} */}
                         <span></span>
-                        <label for="password" id="userLabel">Enter Password</label>
+                        <label htmlFor="loginPassword" id="LoginPasswordLabel" className='userLabel'>Enter Password</label>
                     </div>
                     <div></div>
                     
-                    <button type="submit" id="button">Log In</button><br />
+                    <button type="submit" id="loginButton">Log In</button><br />
 
                     <div className='redirector-link'>
-                    <Link to="/passwordchange" className='link' id='forgotPassword'>Forgot Password?</Link><br />
+                    <Link to="/passwordchange" className='link' id='forgotPassword'>Forgot Password?</Link><br /><br />
                     <Link to="/register" className='link' id='register'>Don't have an account? Register</Link>
                     </div>
                 </form>
