@@ -10,6 +10,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loggedIn, setLoggedIn] = useState(false); 
 
+    const navigate = useNavigate();
 
     useEffect(
         () => {
@@ -23,8 +24,7 @@ const Login = () => {
     useEffect(() => {
         if (loggedIn) {
             // Redirect to the home page if the user is logged in
-            const navigate = useNavigate();
-            navigate('/home');
+            navigate('/');
         }
     }, [loggedIn]);
 
@@ -40,14 +40,16 @@ const Login = () => {
             setErrorMessage('Please fill in all fields');
             return;
         }
-        const data = {
-            username: username,
-            password: password
-        };
+        const data = JSON.stringify(
+            {
+                username: username,
+                password: password
+            }
+        );
 
         console.log(data);
 
-        const response = axios.post('http://localhost:8080/api/auth/login', data, {
+        const response = axios.post('http://localhost:8080/auth/login', data, {
             headers: {
                 'Content-Type': 'application/json'
             }

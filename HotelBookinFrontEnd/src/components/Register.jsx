@@ -42,13 +42,13 @@ const Register = () => {
         const data = {
             username: username,
             email: email,
-            mobile: mobile,
+            // mobile: mobile,
             password: password,
             confirmPassword: confirmPassword
         };
         console.log(data);
 
-        const response = axios.post('http://localhost:8080/api/auth/register', data, {
+        const response = axios.post('http://localhost:8080/auth/register/customer', data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -57,7 +57,8 @@ const Register = () => {
             setRegistrationSuccess(true);
         }).catch((error) => {
             setError(true);
-            setErrorMessage('Registration failed. Please try again.');
+            setErrorMessage(error.response.data.message);
+            console.log(error.response.data.message);
         });
         // Make an API call to the backend to register the user
         // If the registration is successful, redirect to the login page
