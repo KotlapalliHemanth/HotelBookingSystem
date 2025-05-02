@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import { Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
 
@@ -8,6 +9,7 @@ const Login = () => {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loggedIn, setLoggedIn] = useState(false); 
+
 
     useEffect(
         () => {
@@ -44,6 +46,26 @@ const Login = () => {
         };
 
         console.log(data);
+
+        const response = axios.post('http://localhost:8080/api/auth/login', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response.data);
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+                setLoggedIn(true);
+            } 
+            // else {
+            //     setError(true);
+            //     setErrorMessage('Invalid username or password');
+            // }
+        }).catch((error) => {
+            console.error(error);
+            setError(true);
+            setErrorMessage('Invalid username or password');
+        });
         // Make an API call to the backend to authenticate the user
         // If the authentication is successful, redirect to the home page};
         // If the authentication fails, set the error message

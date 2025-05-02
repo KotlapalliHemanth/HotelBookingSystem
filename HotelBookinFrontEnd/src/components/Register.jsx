@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import { Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
 
@@ -46,6 +47,18 @@ const Register = () => {
             confirmPassword: confirmPassword
         };
         console.log(data);
+
+        const response = axios.post('http://localhost:8080/api/auth/register', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response.data);
+            setRegistrationSuccess(true);
+        }).catch((error) => {
+            setError(true);
+            setErrorMessage('Registration failed. Please try again.');
+        });
         // Make an API call to the backend to register the user
         // If the registration is successful, redirect to the login page
         // setRegistrationSuccess(true);
