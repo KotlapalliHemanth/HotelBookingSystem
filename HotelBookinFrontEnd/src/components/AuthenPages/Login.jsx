@@ -24,7 +24,7 @@ const Login = () => {
         if (loggedIn) {
             // Redirect to the home page if the user is logged in
             const navigate = useNavigate();
-            navigate('/home');
+            navigate('/');
         }
     }, [loggedIn]);
 
@@ -47,7 +47,7 @@ const Login = () => {
 
         console.log(data);
 
-        const response = axios.post('http://localhost:8080/api/auth/login', data, {
+        const response = axios.post('http://localhost:8080/auth/login', data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -64,7 +64,7 @@ const Login = () => {
         }).catch((error) => {
             console.error(error);
             setError(true);
-            setErrorMessage('Invalid username or password');
+            setErrorMessage(error.response.data.message);
         });
         // Make an API call to the backend to authenticate the user
         // If the authentication is successful, redirect to the home page};

@@ -57,7 +57,8 @@ const Register = () => {
             setRegistrationSuccess(true);
         }).catch((error) => {
             setError(true);
-            setErrorMessage('Registration failed. Please try again.');
+            setErrorMessage(error.response.data.message);
+            
         });
         // Make an API call to the backend to register the user
         // If the registration is successful, redirect to the login page
