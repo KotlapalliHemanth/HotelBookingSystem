@@ -1,2 +1,0 @@
-# HotelBookingSystem
-Hotel booking app
