@@ -74,31 +74,31 @@ const Register = () => {
             </div>
             <form id="registrationForm" action="" onSubmit={handleSubmit}>
                     <div className="inputBox">
-                        <input type="text" id="registerUsername" placeholder=" " />
+                        <input type="text" id="registerUsername" className="forminput" placeholder=" " />
                         {/* value={username} onChange={e=>setUsername(e.target.value)} */}
                         <span></span>
                         <label htmlFor="registerUsername" id="registerUserLabel" className='userLabel'>Enter username</label>
                     </div>
                     <div className="inputBox">
-                        <input type="text" id="registerEmail" placeholder=" " />
+                        <input type="text" id="registerEmail" className="forminput" placeholder=" " />
                         {/* value={username} onChange={e=>setUsername(e.target.value)} */}
                         <span></span>
                         <label htmlFor="registerEmail" id="registerEmailLabel" className='userLabel'>Enter Email</label>
                     </div>
                     <div className="inputBox">
-                        <input type="text" id="registerMobile" placeholder=" " />
+                        <input type="text" id="registerMobile" className="forminput" placeholder=" " />
                         {/* value={username} onChange={e=>setUsername(e.target.value)} */}
                         <span></span>
                         <label htmlFor="registerMobile" id="registerMobileLabel" className='userLabel'>Enter Mobile Number</label>
                     </div>
                     <div className='inputBox'>
-                        <input type="password" id="registerPassword" placeholder=" " />  
+                        <input type="password" id="registerPassword" className="forminput" placeholder=" " />  
                         {/* value={password} onChange={e=>setPassword(e.target.value)} */}
                         <span></span>
                         <label htmlFor="registerPassword" id="registerPasswordLabel" className='userLabel'>Enter Password</label>
                     </div>
                     <div className='inputBox'>
-                        <input type="password" id="registerConfirmPassword" placeholder=" " />  
+                        <input type="password" id="registerConfirmPassword" className="forminput" placeholder=" " />  
                         {/* value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} */}
                         <span></span>
                         <label htmlFor="registerConfirmPassword" id="registerConfirmPasswordLabel" className='userLabel'>Enter Confirm Password</label>

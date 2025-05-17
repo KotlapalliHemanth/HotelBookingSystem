@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Login = () => {
 
@@ -15,10 +16,10 @@ const Login = () => {
         () => {
             const token = localStorage.getItem('token');
             if (token) {
-                setLoggedIn(true);
+                setLoggedIn(true);// need to store and use login status in the redux store
             }
         }, []
-    );
+    );   
 
     useEffect(() => {
         if (loggedIn) {
@@ -54,8 +55,9 @@ const Login = () => {
         }).then((response) => {
             console.log(response.data);
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('token', response.data.token);// need  to set the token name as the type of the usertoken 
                 setLoggedIn(true);
+
             } 
             // else {
             //     setError(true);
@@ -80,13 +82,13 @@ const Login = () => {
             </div>
                 <form action="" onSubmit={handleSubmit}>
                     <div className="inputBox">
-                        <input type="text" id="loginUsername" placeholder=" " />
+                        <input type="text" id="loginUsername" className="forminput" placeholder=" " />
                         {/* value={username} onChange={e=>setUsername(e.target.value)} */}
                         <span></span>
                         <label htmlFor="loginUsername" id="loginUserLabel" className='userLabel'>Enter Email/UserName</label>
                     </div>
                     <div className='inputBox'>
-                        <input type="password" id="loginPassword" placeholder=" " />  
+                        <input type="password" id="loginPassword" className="forminput" placeholder=" " />  
                         {/* value={password} onChange={e=>setPassword(e.target.value)} */}
                         <span></span>
                         <label htmlFor="loginPassword" id="LoginPasswordLabel" className='userLabel'>Enter Password</label>

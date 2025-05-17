@@ -3,8 +3,8 @@ import './App.css'
 import Home from './components/Home'
 import Login from './components/AuthenPages/Login'
 import Register from './components/AuthenPages/Register'
-import Profile from './components/customerPages/Profile'
-import Hotel from './components/Hotel'
+import Profile from './components/customerPages/profile/Profile'
+import Hotel from './components/customerPages/Hotel/Hotel'
 import FindHotel from './components/customerPages/Hotel/FindHotel'
 
 
@@ -28,6 +28,8 @@ function App() {
         
       </Routes>
     </>
+
+
   )
 }
 

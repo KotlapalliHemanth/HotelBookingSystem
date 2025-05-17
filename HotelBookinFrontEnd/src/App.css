@@ -7,8 +7,6 @@
     position: sticky ;
     top: 0px;
     left: 0%;
-    
-
     padding: 2px;
     height: 10vh;
     margin: 0px;
@@ -67,19 +65,33 @@
     
 }
 
+.body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    width: 100vw;
+}
 
 #loginBox, #registerBox{
     position: relative;
     background-color: white;
     width: 60%;
     max-width: 400px;
-    padding: 56px 35px 16px;
     border-radius: 15px;
     box-shadow: 0px 2px 4px 2px rgb(85, 85, 85);
     color: #878787;
     display: flex;
     flex-direction: column;
     transform: scale(0.8);
+}
+#loginBox{
+    padding: 56px 35px 16px;
+}
+
+#registerBox{
+    padding: 30px 35px 16px;
 }
 
 
@@ -98,8 +110,8 @@
 .inputBox{
     position: relative;
 }
-/* instead of "input[type="text"]" we need to use the classname or id since input might be used again not in forms */
-input[type="text"], input[type="password"]{
+
+.forminput{
     border: none;
     border-bottom: 1px solid black;
     padding: 8px 0px 10px 0px;
@@ -141,7 +153,7 @@ span::before{
     transform-origin: left;
     transition: transform 0.5s ease-out 0.1s;
 }
-input[type="text"]:focus, input[type="password"]:focus{
+.forminput:focus{
     outline: none;
 }
 .userLabel{
@@ -185,15 +197,10 @@ input[type="text"]:focus, input[type="password"]:focus{
 
 
 /* Effects */
-input[type="text"]:focus ~ span::before, input[type="password"]:focus ~ span::before{
+.forminput:focus ~ span::before, .forminput:focus ~ span::after{
     transform: scale(1);
 }
-input[type="text"]:focus ~ span::after, input[type="password"]:focus ~ span::after{
-    transform: scale(1);
-}
-input[type="text"]:focus ~ .userLabel, input[type="password"]:focus ~ .userLabel{
-    transform: translateY(-25px) scale(0.7);
-}
-input[type="text"]:not(:placeholder-shown) ~ .userLabel, input[type="password"]:not(:placeholder-shown) ~ .userLabel{
+
+.forminput:focus ~ .userLabel, .forminput:not(:placeholder-shown) ~ .userLabel{
     transform: translateY(-25px) scale(0.7);
 }
