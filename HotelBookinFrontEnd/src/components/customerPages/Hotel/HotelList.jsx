@@ -1,10 +1,14 @@
 import React from 'react';
-
+import s from './hotelList.module.css'
+import HotelCard from './HotelCard';
 const HotelList = () => {
     return (
-        <div>
-            {/* contains list of hotel cards */}
-            {/* Add hotel card components here */}
+        
+        <div className={s.hotelList}>
+            <HotelCard />
+            <HotelCard />
+            <HotelCard />
+            <HotelCard />
         </div>
     );
 }

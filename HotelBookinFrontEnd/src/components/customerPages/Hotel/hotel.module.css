@@ -1,0 +1,226 @@
+.hotelContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 90vh;
+}
+
+.hdetails{
+    display:flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    flex: 1 1 0;
+    min-width: 320px;
+    height: 100%;
+    padding: 5px;
+}
+
+
+.imageslider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sliderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(82, 82, 82, 0.4);
+  color: #fff;
+  padding: 5px 8px;
+  font-size: 1rem;
+  border-radius: 25%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.left {
+  left: 0px;
+}
+
+.right {
+  right: 0px;
+}
+
+.details {
+  background: #fff;
+  margin-top: 16px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hotelName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.hotelLocation {
+  color: #666;
+  font-size: 1rem;
+}
+
+.hotelDescription {
+  font-size: 1rem;
+  color: #444;
+}
+
+.hotelRating {
+  color: #e3b505;
+  font-size: 1.1rem;
+}
+
+.hotelPrice {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2a9d8f;
+}
+
+/* Add below your existing CSS */
+/* filepath: d:\java Exceler\TestProject\HotelBookinFrontEnd\src\components\customerPages\Hotel\hotel.module.css */
+
+.hform {
+    flex: 1 1 0;
+    min-width: 320px;
+    display: flex;
+    align-items: stretch; /* Make children (form) stretch to full height */
+    justify-content: center;
+    padding: 32px 0;
+    height: 100%; /* Ensure .hform fills parent height */
+}
+
+.bookingForm {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 90%; /* Make form fill .hform height */
+    justify-content: space-between; /* Optional: space out content vertically */
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.inputGroup label {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.inputGroup input {
+  padding: 6px 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.roomTypes {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.roomTypeCard {
+  flex: 1;
+  background: #f6f6f6;
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s, background 0.2s;
+}
+
+.roomTypeCard:hover {
+  background: #e9f5f3;
+}
+
+.selected {
+  border: 2px solid #2a9d8f;
+  background: #e0f7f4;
+}
+
+.roomTypeName {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.roomTypePrice {
+  color: #2a9d8f;
+  font-size: 1rem;
+}
+
+.totalPrice {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 8px;
+}
+
+.bookBtn {
+  background: #2a9d8f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.bookBtn:hover {
+  background: #21867a;
+}
+
+/* Responsive for small screens */
+@media (max-width: 900px) {
+    .hotelContainer {
+        flex-direction: column;
+        height: auto;
+    }
+    .hdetails, .hform {
+        min-width: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+    .bookingForm {
+        max-width: 100%;
+        padding: 16px 8px;
+    }
+}

@@ -1,0 +1,14 @@
+.hotelList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+    /* padding: 5px; */
+    overflow-y: auto;
+    box-sizing: border-box;
+    gap: 10px;
+    width: 100%;
+    height: max-content;
+    background-color: rgb(252, 252, 252);
+}
