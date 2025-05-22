@@ -24,6 +24,9 @@ const UserSlice = createSlice({
       state.updating = false;
       state.login = false;
     },
+    setLoggedin: (state, action) => {
+      state.login = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,7 +48,6 @@ const UserSlice = createSlice({
       .addCase(updateUserDetails.pending, (state) => {
         state.updating = true;
         state.user.profileUpdateError = null;
-        
       })
       .addCase(updateUserDetails.fulfilled, (state, action) => {
         // action.payload may contain userDetails and imageUploadResult
@@ -53,7 +55,6 @@ const UserSlice = createSlice({
           if (action.payload.userDetails) {
             state.user.userdetails = action.payload.userDetails;
           }
-          
         }
         state.user.profileUpdateError = null;
         state.updating = false;
@@ -65,7 +66,7 @@ const UserSlice = createSlice({
   }
 });
 
-export const { setLogout } = UserSlice.actions;
+export const { setLogout, setLoggedin } = UserSlice.actions;
 export default UserSlice.reducer;
 
 

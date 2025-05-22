@@ -1,14 +1,23 @@
 import React from 'react';
-import s from './hotelList.module.css'
+import { useSelector } from 'react-redux';
+import s from './hotelList.module.css';
 import HotelCard from './HotelCard';
+
 const HotelList = () => {
+    // Get hotels array from the Redux store
+    const hotels = useSelector(state => state.hotels.hotels);
+
     return (
-        
         <div className={s.hotelList}>
-            <HotelCard />
-            <HotelCard />
-            <HotelCard />
-            <HotelCard />
+            {hotels && hotels.length > 0 ? (
+                hotels.map(hotel => (
+                    <HotelCard key={hotel.id || hotel._id} hotel={hotel} />
+                ))
+            ) : (
+                <div className={s.noHotelsFound}>
+                    No hotels found.
+                </div>
+            )}
         </div>
     );
 }

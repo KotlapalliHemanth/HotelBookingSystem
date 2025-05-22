@@ -3,15 +3,22 @@ import axios from 'axios';
 
 const getUserDetails = createAsyncThunk(
   'user/getUserDetails',
-  async (userId, {rejectWithValue}) => {
+  async (_, { rejectWithValue }) => {
     try {
-        
-        
-      const response = await axios.get(`http://localhost:8080/api/user/${userId}`);// need to add the upi link accordingly
-        return response.data;
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        'http://localhost:8080/customer',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || error.message);
     }
-})
+  }
+);
 
 export default getUserDetails;

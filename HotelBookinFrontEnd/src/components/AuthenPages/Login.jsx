@@ -1,110 +1,104 @@
-import {useEffect, useState} from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogout, setLoggedin } from '../../store/Slices/user/UserSlice';
 
 const Login = () => {
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false); 
 
+    const loggedIn = useSelector(state => state.user.login);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    useEffect(
-        () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                setLoggedIn(true);// need to store and use login status in the redux store
-            }
-        }, []
-    );   
-
+    // On mount, if token exists, set login state and redirect
     useEffect(() => {
-        if (loggedIn) {
-            // Redirect to the home page if the user is logged in
-            const navigate = useNavigate();
+        const token = localStorage.getItem('token');
+        if (token) {
+            dispatch(setLoggedin(true));
             navigate('/');
         }
-    }, [loggedIn]);
+        if (!token) {
+            dispatch(setLoggedin(false));
+            console.log(loggedIn)
+        
+        }
+    }, [dispatch, navigate, loggedIn]);
 
+    // On login state change, redirect if logged in
+    useEffect(() => {
+        if (loggedIn) {
+            navigate('/');
+        }
+    }, [loggedIn, navigate]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError(false);
         setErrorMessage('');
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
         if (username === '' || password === '') {
             setError(true);
             setErrorMessage('Please fill in all fields');
             return;
         }
-        const data = {
-            username: username,
-            password: password
-        };
+        const data = { username, password };
 
-        console.log(data);
-
-        const response = axios.post('http://localhost:8080/auth/login', data, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((response) => {
-            console.log(response.data);
+        try {
+            const response = await axios.post('http://localhost:8080/auth/login', data, {
+                headers: { 'Content-Type': 'application/json' }
+            });
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token);// need  to set the token name as the type of the usertoken 
-                setLoggedIn(true);
-
-            } 
-            // else {
-            //     setError(true);
-            //     setErrorMessage('Invalid username or password');
-            // }
-        }).catch((error) => {
-            console.error(error);
+                localStorage.setItem('token', response.data.token);
+                dispatch(setLoggedin(true));
+                // navigate('/') will be triggered by useEffect above
+            }
+        } catch (error) {
             setError(true);
-            setErrorMessage(error.response.data.message);
-        });
-        // Make an API call to the backend to authenticate the user
-        // If the authentication is successful, redirect to the home page};
-        // If the authentication fails, set the error message
-        // setError(true);
-        // setErrorMessage('Invalid username or password');
-    }
+            setErrorMessage(error.response?.data?.message || "Login failed");
+        }
+    };
 
     return (
         <div id="loginBox">
             <div className='errorBox'>
                 {error ? <div className='error'>{errorMessage}</div> : <div className='error'></div>}
             </div>
-                <form action="" onSubmit={handleSubmit}>
-                    <div className="inputBox">
-                        <input type="text" id="loginUsername" className="forminput" placeholder=" " />
-                        {/* value={username} onChange={e=>setUsername(e.target.value)} */}
-                        <span></span>
-                        <label htmlFor="loginUsername" id="loginUserLabel" className='userLabel'>Enter Email/UserName</label>
-                    </div>
-                    <div className='inputBox'>
-                        <input type="password" id="loginPassword" className="forminput" placeholder=" " />  
-                        {/* value={password} onChange={e=>setPassword(e.target.value)} */}
-                        <span></span>
-                        <label htmlFor="loginPassword" id="LoginPasswordLabel" className='userLabel'>Enter Password</label>
-                    </div>
-                    <div></div>
-                    
-                    <button type="submit" id="loginButton">Log In</button><br />
-
-                    <div className='redirector-link'>
+            <form onSubmit={handleSubmit}>
+                <div className="inputBox">
+                    <input
+                        type="text"
+                        id="loginUsername"
+                        className="forminput"
+                        placeholder=" "
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                    />
+                    <span></span>
+                    <label htmlFor="loginUsername" id="loginUserLabel" className='userLabel'>Enter Email/UserName</label>
+                </div>
+                <div className='inputBox'>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        className="forminput"
+                        placeholder=" "
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                    <span></span>
+                    <label htmlFor="loginPassword" id="LoginPasswordLabel" className='userLabel'>Enter Password</label>
+                </div>
+                <button type="submit" id="loginButton">Log In</button><br />
+                <div className='redirector-link'>
                     <Link to="/passwordchange" className='link' id='forgotPassword'>Forgot Password?</Link><br /><br />
                     <Link to="/register" className='link' id='register'>Don't have an account? Register</Link>
-                    </div>
-                </form>
-                
+                </div>
+            </form>
         </div>
     );
-}
+};
 
 export default Login;

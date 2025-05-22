@@ -1,9 +1,18 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { setLoggedin, setLogout } from '../store/Slices/user/UserSlice';
 
 const Header = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = useSelector(state => state.user.login);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        dispatch(setLogout());
+        dispatch(setLoggedin(false));
+        
+    };
 
     return (
         <div id="header" className="header" >
@@ -17,15 +26,14 @@ const Header = () => {
             </div>
             {!isLoggedIn ? 
                 <div className='loger-container'>
-                <Link to="/login" className='link'><span className="material-symbols-outlined authen" id='login-btn' title='log in'>login</span></Link>
-                <Link to="/register" className='link'><span className="material-symbols-outlined authen" id='register-btn' title='register'>person_add</span></Link>
-                </div>:
-                <div className='login-container'>
-                <Link to="/profile" className='link'><span className="material-symbols-outlined authen" id='profile-btn' title='profile'>person</span></Link>
-                <span className="material-symbols-outlined authen" id='logout-btn' title='log out'>logout</span>
+                    <Link to="/login" className='link'><span className="material-symbols-outlined authen" id='login-btn' title='log in'>login</span></Link>
+                    <Link to="/register" className='link'><span className="material-symbols-outlined authen" id='register-btn' title='register'>person_add</span></Link>
+                </div> :
+                <div className='loger-container'>
+                    <Link to="/profile" className='link'><span className="material-symbols-outlined authen" id='profile-btn' title='profile'>person</span></Link>
+                    <Link to="/" className='link'><span className="material-symbols-outlined authen" id='logout-btn' title='log out' onClick={handleLogout}>logout</span></Link>
                 </div>
             }
-                    
         </div>
     );
 }

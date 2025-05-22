@@ -1,36 +1,44 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// payload: { userId, imageFile, userDetails }
 const updateUserDetails = createAsyncThunk(
     "user/updateUserDetails",
-    async ({ userId, imageFile, userDetails }, { rejectWithValue }) => {
+    async ({ imageFile, userDetails }, { rejectWithValue }) => {
+        const token = localStorage.getItem('token');
         let imageUploadResult = null;
 
-        // 1. If imageFile exists, upload it first
+        // 1. Upload image if present
         if (imageFile) {
             try {
                 const formData = new FormData();
                 formData.append("image", imageFile);
-                formData.append("userId", userId);
-                const response = await axios.post("http://localhost:8080/user/uploadImage", formData, {
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
-                // Check if response.data is a string
-                if (typeof response.data === "string") {
-                    imageUploadResult = response.data;
-                } else {
-                    imageUploadResult = JSON.stringify(response.data);
-                }
+                const response = await axios.post(
+                    "http://localhost:8080/customer/upload-image",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${token}`,
+                        }
+                    }
+                );
+                imageUploadResult = response.data;
             } catch (error) {
                 return rejectWithValue(error.response?.data?.message || error.message);
             }
         }
 
-        // 2. Update other user details
+        // 2. Update user details
         try {
-            const response = await axios.put(`http://localhost:8080/user/update/${userId}`, userDetails);
-            // Optionally, you can return both results
+            const response = await axios.put(
+                "http://localhost:8080/customer",
+                userDetails,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
             return { userDetails: response.data, imageUploadResult };
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message);

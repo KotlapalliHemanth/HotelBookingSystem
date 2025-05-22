@@ -22,7 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/hotel/:id" element={<Hotel />} />
+          <Route path="/hotel/:id" element={<Hotel  />} />
           {/* <Route path="/hotel/:id/booking" element={<Hotel />} /> ---------   need to decide based on the payment API setup */}
         </Route>
         

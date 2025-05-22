@@ -42,13 +42,13 @@ const Register = () => {
         const data = {
             username: username,
             email: email,
-            mobile: mobile,
+            // mobile: mobile,
             password: password,
-            confirmPassword: confirmPassword
+            // confirmPassword: confirmPassword
         };
         console.log(data);
 
-        const response = axios.post('http://localhost:8080/api/auth/register', data, {
+        const response = axios.post('http://localhost:8080/auth/register/customer/', data, {
             headers: {
                 'Content-Type': 'application/json'
             }

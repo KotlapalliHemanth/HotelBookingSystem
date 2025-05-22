@@ -1,25 +1,32 @@
 import React from 'react';
-import s from './hotelCard.module.css'
+import s from './hotelCard.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const HotelCard = () => {
+const HotelCard = ({ hotel }) => {
+    const navigate = useNavigate();
+    const hotelId = hotel._id || hotel.id;
 
-    let navigate= useNavigate();
-    // need to get hotel details through the props from the serch result.
     return (
-        <div className={s.cardContainer} onClick={(e) => {e.preventDefault(); navigate(`hotel/${hotelId}`);}}> 
+        <div
+            className={s.cardContainer}
+            onClick={() => navigate(`/hotel/${hotelId}`)}
+        >
             <div className={s.hotelcard}>
                 <div className={s.img}>
-                    <img src="https://cdn.pixabay.com/photo/2017/01/14/12/48/hotel-1979406_960_720.jpg" alt="" className={s.img} />
+                    <img
+                        src={hotel.imageUrl || "https://cdn.pixabay.com/photo/2017/01/14/12/48/hotel-1979406_960_720.jpg"}
+                        alt={hotel.name}
+                        className={s.img}
+                    />
                 </div>
                 <div className={s.details}>
-                    <div>Hotel name</div>
-                    <div>Location: banglore, India</div>
-                    <div>Price: Rs.900/day</div>
+                    <div>{hotel.name}</div>
+                    <div>Location: {hotel.location}</div>
+                    <div>Price: ₹{hotel.price}/day</div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default HotelCard;

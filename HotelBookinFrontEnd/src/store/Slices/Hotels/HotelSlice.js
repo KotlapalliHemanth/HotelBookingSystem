@@ -45,5 +45,5 @@ const HotelSlice = createSlice({
 });
 
 
-export const {getHotelDetails, getHotels} = HotelSlice.actions;
+export const {} = HotelSlice.actions;
 export default HotelSlice.reducer;
