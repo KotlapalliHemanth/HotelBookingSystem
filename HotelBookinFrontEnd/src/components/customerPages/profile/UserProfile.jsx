@@ -63,6 +63,26 @@ const UserProfile = () => {
             </div>
             <form onSubmit={handleUpdate} className={s.profileForm}>
                 <div className={s.inputGroup}>
+                    <label htmlFor="profileUsername">Username:</label>
+                    <input
+                        id="profileUsername"
+                        type="text"
+                        value={userDetails.username || ''}
+                        className={s.input}
+                        disabled // Username is usually not editable
+                    />
+                </div>
+                <div className={s.inputGroup}>
+                    <label htmlFor="profileEmail">Email:</label>
+                    <input
+                        id="profileEmail"
+                        type="email"
+                        value={userDetails.email || ''}
+                        className={s.input}
+                        disabled // Email is usually not editable
+                    />
+                </div>
+                <div className={s.inputGroup}>
                     <label htmlFor="profileFirstName">First Name:</label>
                     <input
                         id="profileFirstName"

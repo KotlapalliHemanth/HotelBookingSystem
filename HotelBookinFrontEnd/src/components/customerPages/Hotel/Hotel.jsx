@@ -1,35 +1,43 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import Footer from '../../Footer';
-import s from './hotel.module.css'
+import s from './hotel.module.css';
 
-
-const images = [
-    'https://via.placeholder.com/400x200?text=Image+1',
-    'https://via.placeholder.com/400x200?text=Image+2',
-    'https://via.placeholder.com/400x200?text=Image+3'
-];
-const roomTypes = [
-    { name: 'Standard', price: 1000 },
-    { name: 'Deluxe', price: 1500 },
-    { name: 'Suite', price: 2000 }
-];
-
-    
 const Hotel = () => {
-    const [current, setCurrent] = useState(0);
+    const [hotel, setHotel] = useState(null);
+    const [selectedRoom, setSelectedRoom] = useState(null);
+    const [selectedRoomType, setSelectedRoomType] = useState(null);
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
-    const [selectedRoom, setSelectedRoom] = useState(roomTypes[0]);
     const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
+    const [current, setCurrent] = useState(0);
+    const navigate = useNavigate();
+    const { hotelId } = useParams(); // assuming route is /hotel/:hotelId
+    const user = useSelector(state => state.user.user.userdetails);
 
-    const prevSlide = () => {
-        setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    };
+    useEffect(() => {
+        // Fetch hotel details
+        axios.get(`http://localhost:8080/hotels/${hotelId}`)
+            .then(res => {
+                setHotel(res.data);
+                // Default to first available room
+                if (res.data.rooms && res.data.rooms.length > 0) {
+                    setSelectedRoom(res.data.rooms[0]);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching hotel details:');
+            });
+    }, [hotelId]);
 
-    const nextSlide = () => {
-        setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    };
+    if (!hotel) return <div>Loading...</div>;
+
+    const images = hotel.imageUrls && hotel.imageUrls.length > 0
+        ? hotel.imageUrls
+        : ['https://via.placeholder.com/400x200?text=No+Image'];
 
     // Calculate nights
     const getNights = () => {
@@ -40,12 +48,36 @@ const Hotel = () => {
         return diff > 0 ? diff : 1;
     };
 
-    // Calculate total price
-    const totalPrice = selectedRoom.price * (adults + (children * 0.5)) * getNights();
+    const selectedRoomTypeObj = hotel.roomTypesAndPrices.find(rt => rt.roomType === selectedRoomType);
+    const totalPrice = selectedRoomTypeObj
+        ? selectedRoomTypeObj.pricePerDay * (adults + (children * 0.5)) * getNights()
+        : 0;
 
-    const handleBook = () => {
-        // Redirect to payments page (replace with your routing logic)
-        window.location.href = '/payment';
+    const handleBook = (e) => {
+        // e.preventDefault();
+        if (!selectedRoomType) return;
+        const availableRoom = hotel.rooms.find(
+            room => room.roomType === selectedRoomType && room.isAvailable
+        );
+        if (!availableRoom) {
+            alert('No available rooms of this type.');
+            return;
+        }
+        
+        navigate('/payment', {
+            state: {
+                amount: totalPrice,
+                bookingDetails: {
+                    customerId: user.id,
+                    roomId: availableRoom.id,
+                    checkInDate: checkIn,
+                    checkOutDate: checkOut,
+                    name: user.firstName + ' ' + user.lastName,
+                    email: user.email,
+                    phone: user.phone
+                }
+            }
+        });
     };
 
     return (
@@ -53,20 +85,15 @@ const Hotel = () => {
         <div className={s.hotelContainer}>
             <div className={s.hdetails}>
                 <div className={s.imageslider}>
-                    <div className={`${s.arrow} ${s.left}`} onClick={prevSlide}>&lt;</div>
+                    <div className={`${s.arrow} ${s.left}`} onClick={() => setCurrent(current === 0 ? images.length - 1 : current - 1)}>&lt;</div>
                     <img className={s.sliderImage} src={images[current]} alt={`Hotel ${current + 1}`} style={{ width: '100%', height: '100%' }} />
-                    <div className={`${s.arrow} ${s.right}`} onClick={nextSlide}>&gt;</div>
+                    <div className={`${s.arrow} ${s.right}`} onClick={() => setCurrent(current === images.length - 1 ? 0 : current + 1)}>&gt;</div>
                 </div>
                 <div className="details">
-                    
-
-                    <h2 className={s.hotelName}>Hotel Name</h2>
-                    <div className={s.hotelLocation}>Location: City, Country</div>
-                    <div className={s.hotelDescription}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vitae.
-                    </div>
-                    <div className={s.hotelRating}>Rating: ★★★★☆</div>
-                    <div className={s.hotelPrice}>Price: $120/night</div>
+                    <h2 className={s.hotelName}>{hotel.name}</h2>
+                    <div className={s.hotelLocation}>Location: {hotel.location}</div>
+                    <div className={s.hotelDescription}>{hotel.description}</div>
+                    <div className={s.hotelRating}>Rating: {hotel.rating} ★</div>
                 </div>
             </div>
             <div className={s.hform}>
@@ -82,16 +109,16 @@ const Hotel = () => {
                             <input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} required />
                         </div>
                     </div>
-                    {/* Room Types */}
+                    {/* Room Selection */}
                     <div className={s.roomTypes}>
-                        {roomTypes.map((room, idx) => (
+                        {hotel.roomTypesAndPrices.map(rt => (
                             <div
-                                key={room.name}
-                                className={`${s.roomTypeCard} ${selectedRoom.name === room.name ? s.selected : ''}`}
-                                onClick={() => setSelectedRoom(room)}
+                                key={rt.roomType}
+                                className={`${s.roomTypeCard} ${selectedRoomType === rt.roomType ? s.selected : ''}`}
+                                onClick={() => setSelectedRoomType(rt.roomType)}
                             >
-                                <div className={s.roomTypeName}>{room.name}</div>
-                                <div className={s.roomTypePrice}>₹{room.price}/night</div>
+                                <div className={s.roomTypeName}>{rt.roomType}</div>
+                                <div className={s.roomTypePrice}>₹{rt.pricePerDay}/night</div>
                             </div>
                         ))}
                     </div>
@@ -110,14 +137,19 @@ const Hotel = () => {
                     <div className={s.totalPrice}>
                         Total: <span>₹{totalPrice.toFixed(2)}</span>
                     </div>
-                    {/* Book Button : need to create form data collection method and submit that data to payments */}
-                    <button type="submit" className={s.bookBtn}>Book Now</button>
+                    <button
+                        type="submit"
+                        className={s.bookBtn}
+                        disabled={!selectedRoomType}
+                    >
+                        Book Now
+                    </button>
                 </form>
             </div>
         </div>
         <Footer />
         </>
     );
-}
+};
 
 export default Hotel;

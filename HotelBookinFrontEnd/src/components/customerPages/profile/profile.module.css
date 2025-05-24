@@ -208,3 +208,68 @@
     vertical-align: middle;
     line-height: 1;
 }
+
+.bookingList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.bookingCard {
+    background: #f8f9fa;
+    border: 1.5px solid #1976d2;
+    border-radius: 8px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.paymentInfo {
+    background: #e3f2fd;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 0.97rem;
+    margin-top: 6px;
+    color: #1565c0;
+}
+
+.bookingMeta {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 4px;
+}
+
+.cancelBtn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background 0.2s;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(229,57,53,0.08);
+}
+
+.cancelBtn:hover {
+    background: #b71c1c;
+}
+
+/* Responsive for booking cards */
+@media (max-width: 700px) {
+    .bookingCard {
+        padding: 12px 6px;
+        font-size: 0.97rem;
+    }
+    .bookingList {
+        gap: 12px;
+    }
+}

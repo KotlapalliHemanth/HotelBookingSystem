@@ -99,12 +99,21 @@
 }
 
 
-.errorBox{
-    position: relative;
-    bottom: 30px;
+#errorBoxRegister {
+    margin-top: 32px; /* Pushes the error message further down */
+    position: static; /* Remove bottom offset for register */
 }
+
 .error{
-    height:1em;
+    color: #b71c1c;
+    background: rgba(244, 67, 54, 0.15); /* translucent red */
+    border: 1.5px solid #b71c1c;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-size: 1rem;
+    display: block;
 }
 
 #registrationForm{

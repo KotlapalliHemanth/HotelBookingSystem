@@ -6,9 +6,10 @@ import Register from './components/AuthenPages/Register'
 import Profile from './components/customerPages/profile/Profile'
 import Hotel from './components/customerPages/Hotel/Hotel'
 import FindHotel from './components/customerPages/Hotel/FindHotel'
+import PaymentPage from './components/customerPages/Hotel/payments/PaymentPage';
 
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/hotel/:id" element={<Hotel  />} />
+          <Route path="/payment" element={<PaymentPageWrapper />} />
           {/* <Route path="/hotel/:id/booking" element={<Hotel />} /> ---------   need to decide based on the payment API setup */}
         </Route>
         
@@ -31,6 +33,13 @@ function App() {
 
 
   )
+}
+
+// Wrapper to pass location.state as props
+function PaymentPageWrapper() {
+    const location = useLocation();
+    const { amount, bookingDetails } = location.state || {};
+    return <PaymentPage amount={amount} bookingDetails={bookingDetails} />;
 }
 
 export default App

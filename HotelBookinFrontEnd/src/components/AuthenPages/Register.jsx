@@ -48,7 +48,7 @@ const Register = () => {
         };
         console.log(data);
 
-        const response = axios.post('http://localhost:8080/auth/register/customer/', data, {
+        const response = axios.post('http://localhost:8080/auth/register/customer', data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -68,10 +68,12 @@ const Register = () => {
      }
 
     return (
-        <div id='registerBox' > 
-            <div className='errorBox'>
-                {error ? <div className='error'>{errorMessage}</div> : <div className='error'></div>}
-            </div>
+        <div id='registerBox'> 
+            {error && (
+                <div id='errorBoxRegister' className='errorBox'>
+                    <div className='error'>{errorMessage}</div>
+                </div>
+            )}
             <form id="registrationForm" action="" onSubmit={handleSubmit}>
                     <div className="inputBox">
                         <input type="text" id="registerUsername" className="forminput" placeholder=" " />

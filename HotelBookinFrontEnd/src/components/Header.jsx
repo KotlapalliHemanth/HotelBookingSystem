@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { setLoggedin, setLogout } from '../store/Slices/user/UserSlice';
+import {  setLogout } from '../store/Slices/user/UserSlice';
 
 const Header = () => {
-    const isLoggedIn = useSelector(state => state.user.login);
+    const loggedIn = useSelector(state => state.user.login);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         dispatch(setLogout());
-        dispatch(setLoggedin(false));
+        
         
     };
 
@@ -24,7 +24,7 @@ const Header = () => {
             <div className="title">
                 Hotel Booking
             </div>
-            {!isLoggedIn ? 
+            {!loggedIn ? 
                 <div className='loger-container'>
                     <Link to="/login" className='link'><span className="material-symbols-outlined authen" id='login-btn' title='log in'>login</span></Link>
                     <Link to="/register" className='link'><span className="material-symbols-outlined authen" id='register-btn' title='register'>person_add</span></Link>

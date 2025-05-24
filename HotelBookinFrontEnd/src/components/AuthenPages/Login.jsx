@@ -19,6 +19,8 @@ const Login = () => {
         const token = localStorage.getItem('token');
         if (token) {
             dispatch(setLoggedin(true));
+            console.log(loggedIn);
+
             navigate('/');
         }
         if (!token) {
@@ -64,7 +66,7 @@ const Login = () => {
     return (
         <div id="loginBox">
             <div className='errorBox'>
-                {error ? <div className='error'>{errorMessage}</div> : <div className='error'></div>}
+                {error && <div className='error'>{errorMessage}</div>}
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="inputBox">
